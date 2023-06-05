@@ -19,7 +19,7 @@
 <hr />
 <table class="table">
   <thead>
-    <tr>
+    <tr class="table-dark">
       <th>ID</th>
       <th>Name</th>
       <th>Image</th>
@@ -30,30 +30,57 @@
     </tr>
   </thead>
   <tbody>
-    <tr
-      *ngFor="let prod of productList"
-      [class.bg-warning]="prod.quantity == 0"
-      [style.background-color]="prod.quantity == 0 ? 'yellow' : 'lightgray'"
+    <ng-container
+      *ngFor="
+        let prod of productList;
+        let i = index;
+        even as e;
+        let o = odd;
+        trackBy: trackByProdID
+      "
     >
-      <td>{{ prod.id }}</td>
-      <td>{{ prod.name }}</td>
-      <td><img [src]="prod.imgURL" alt="" /></td>
-      <td>{{ prod.quantity }}</td>
-      <td>{{ prod.price }}</td>
-      <!-- Template variables -->
-      <td><input #itemsCount type="number" class="form-control" /></td>
-      <td>
-        <button
-          type="button"
-          class="btn btn-secondary"
-          (click)="buy(prod.price, +itemsCount.value)"
-        >
-          Buy
-        </button>
-      </td>
-    </tr>
+      <!-- <tr
+        *ngIf="prod.quantity != 0"
+        [class.table-warning]="e"
+        [class.table-secondary]="o"
+      > -->
+      <!-- <tr [class.table-warning]="e" [class.table-secondary]="o"> -->
+      <tr
+        [ngClass]="{ 'table-warning': e, 'table-secondary': o }"
+        [ngStyle]="{ 'font-weight': e ? 'bold' : 'normal' }"
+      >
+        <td>{{ i + 1 }}</td>
+        <td>{{ prod.name }}</td>
+        <td><img [src]="prod.imgURL" alt="" /></td>
+        <td>
+          <!-- <div *ngIf="prod.quantity != 0">{{ prod.quantity }}</div>
+          <div *ngIf="prod.quantity == 0">Out Of Stock</div> -->
+          <!-- <div *ngIf="prod.quantity != 0; else outOfStock">
+            {{ prod.quantity }}
+          </div>
+          <ng-template #outOfStock>Out Of Stock</ng-template> -->
+          <ng-container [ngSwitch]="prod.quantity">
+            <div *ngSwitchCase="0">Out Of Stock</div>
+            <div *ngSwitchCase="1">Last item!</div>
+            <div *ngSwitchCase="2">Last 2 item!</div>
+            <div *ngSwitchDefault="">{{ prod.quantity }}</div>
+          </ng-container>
+        </td>
+        <td>{{ prod.price }}</td>
+        <!-- Template variables -->
+        <td><input #itemsCount type="number" class="form-control" /></td>
+        <td>
+          <button
+            type="button"
+            class="btn btn-secondary"
+            (click)="buy(prod.price, +itemsCount.value)"
+          >
+            Buy
+          </button>
+        </td>
+      </tr>
+    </ng-container>
   </tbody>
 </table>
-
 <hr />
 <h3>Order Total Price: {{ orderTotalPrice }}</h3>

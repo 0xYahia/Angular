@@ -75,4 +75,7 @@ export class ProductListComponent {
   changeSelectedCat() {
     this.selectedCatID = 1;
   }
+  trackByProdID(index: number, prod: IProduct) {
+    return prod.id;
+  }
 }
