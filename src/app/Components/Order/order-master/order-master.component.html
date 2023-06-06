@@ -1,0 +1,25 @@
+<h2>Create Your Order:</h2>
+<div class="mb-3">
+  <label for="prodCat" class="form-label">Category:</label>
+  <!-- one way binding -->
+  <!-- <select #cat class="form-select " name="cat" id="prodCat" (change)="getSelectedCat(cat.value)"> -->
+  <!-- <select #cat class="form-select " name="cat" id="prodCat" (change)="getSelectedCat($event)"> -->
+  <!-- // in ts: event.target.value -->
+  <!-- // two way binding -->
+  <select
+    class="form-select"
+    name="cat"
+    id="prodCat"
+    [(ngModel)]="selectedCatID"
+  >
+    <option *ngFor="let cat of catList" [value]="cat.id">{{ cat.name }}</option>
+  </select>
+</div>
+<hr />
+<div class="bg-warning">
+  <app-product-list [sentCatID]="selectedCatID"></app-product-list>
+</div>
+<h3>
+  [To be Removed] For test: <br />
+  Order Total Price: {{ orderTotalPrice }}
+</h3>
