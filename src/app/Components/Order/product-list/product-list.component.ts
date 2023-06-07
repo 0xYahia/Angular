@@ -1,6 +1,13 @@
-import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  OnChanges,
+  Output,
+} from '@angular/core';
 import { ICategory } from 'src/app/Models/icategory';
 import { IProduct } from 'src/app/Models/iproduct';
+import { CartModel } from 'src/app/ViewModels/cart-model';
 
 @Component({
   selector: 'app-product-list',
@@ -10,11 +17,14 @@ import { IProduct } from 'src/app/Models/iproduct';
 export class ProductListComponent implements OnChanges {
   orderDate: Date;
   @Input() sentCatID: number = 0;
+  @Output() totalPriceChanged: EventEmitter<number>;
+  // @Output() totalPriceChanged: EventEmitter<CartModel>;
   catList: ICategory[];
   productList: IProduct[];
   productListCat: IProduct[] = [];
   orderTotalPrice: number = 0;
   constructor() {
+    this.totalPriceChanged = new EventEmitter();
     this.catList = [
       { id: 1, name: 'Laptops' },
       { id: 2, name: 'Tablets' },
@@ -77,8 +87,13 @@ export class ProductListComponent implements OnChanges {
     this.filterProdByCatID();
   }
   buy(prodPrice: number, count: number) {
-    this.orderTotalPrice = count * prodPrice;
+    this.orderTotalPrice += count * prodPrice;
+    // Execute my event
+    this.totalPriceChanged.emit(this.orderTotalPrice);
   }
+  // buy() {
+  //   this.totalPriceChanged.emit(this.orderTotalPrice);
+  // }
   changeSelectedCat() {
     this.sentCatID = 1;
   }
@@ -86,8 +101,10 @@ export class ProductListComponent implements OnChanges {
     return prod.id;
   }
   filterProdByCatID() {
-    this.productListCat = this.productList.filter(
-      (prod) => prod.categoryID == this.sentCatID
-    );
+    if (this.sentCatID == 0) this.productListCat = this.productList;
+    else
+      this.productListCat = this.productList.filter(
+        (prod) => prod.categoryID == this.sentCatID
+      );
   }
 }
