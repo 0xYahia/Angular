@@ -29,7 +29,8 @@
       <th>Price In USD</th>
       <th>Price In EGY</th>
       <th>Count</th>
-      <th>Buy</th>
+      <th>Details</th>
+      <th>Add to cart</th>
     </tr>
   </thead>
   <tbody>
@@ -80,6 +81,20 @@
         <td>{{ prod.price | USDtoEGP : 30 | currency : "EGP" : "code" }}</td>
         <!-- Template variables -->
         <td><input #itemsCount type="number" class="form-control" /></td>
+        <!-- <td>
+          <button
+            type="button"
+            class="btn btn-secondary"
+            (click)="showProdDetails(prod.id)"
+          >
+            Details
+          </button>
+        </td> -->
+        <td>
+          <button class="btn btn-success" [routerLink]="['/products', prod.id]">
+            Details
+          </button>
+        </td>
         <td>
           <button
             type="button"
@@ -90,6 +105,7 @@
           </button>
           <!-- <button type="button" class="btn btn-secondary">Buy</button> -->
         </td>
+        <td></td>
       </tr>
     </ng-container>
   </tbody>

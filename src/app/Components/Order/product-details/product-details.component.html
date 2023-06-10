@@ -1,0 +1,30 @@
+<div class="card" style="width: 18rem">
+  <img [src]="product?.imgURL" class="card-img-top" alt="..." />
+  <h5 class="card-title">{{ product?.name }}</h5>
+  <div class="card-body">
+    <div>Price: {{ product?.price }}</div>
+    <div>Price: {{ product?.quantity }}</div>
+  </div>
+  <!-- <Button class="btn btn-secondary" (click)="goBack()">Back</Button> -->
+  <div class="btn-group" role="group" aria-label="Basic outlined example">
+    <button
+      [disabled]="currProdId == prodIDArr[0]"
+      type="button"
+      class="btn btn-outline-primary"
+      (click)="prevProduct()"
+    >
+      Previous
+    </button>
+    <button type="button" class="btn btn-outline-primary" (click)="goBack()">
+      Back
+    </button>
+    <button
+      [disabled]="currProdId == prodIDArr[prodIDArr.length - 1]"
+      type="button"
+      class="btn btn-outline-primary"
+      (click)="nextProduct()"
+    >
+      Next
+    </button>
+  </div>
+</div>
