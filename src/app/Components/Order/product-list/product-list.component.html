@@ -15,7 +15,11 @@
     <option *ngFor="let cat of catList" [value]="cat.id">{{ cat.name }}</option>
   </select>
 </div> -->
+<a class="btn btn-primary" [routerLink]="['/product/add']" role="button"
+  >New Product</a
+>
 <div class="test-secondary">[To be Removed] For test: {{ sentCatID }}</div>
+
 <button class="btn btn-primary" (click)="changeSelectedCat()">Change</button>
 <br />fullDate Order's Date: {{ orderDate | date : "fullDate" }}
 <hr />

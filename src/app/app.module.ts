@@ -17,6 +17,7 @@ import { NotFoundComponent } from './Components/not-found/not-found.component';
 import { MainLayoutComponent } from './Components/main-layout/main-layout.component';
 import { UserLoginComponent } from './Components/user-login/user-login.component';
 import { ProductDetailsComponent } from './Components/Order/product-details/product-details.component';
+import { AddProductComponent } from './Components/Order/add-product/add-product.component';
 
 @NgModule({
   declarations: [
@@ -33,6 +34,7 @@ import { ProductDetailsComponent } from './Components/Order/product-details/prod
     MainLayoutComponent,
     UserLoginComponent,
     ProductDetailsComponent,
+    AddProductComponent,
   ],
   imports: [BrowserModule, AppRoutingModule, FormsModule, HttpClientModule],
   providers: [],

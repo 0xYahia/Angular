@@ -10,6 +10,7 @@ import { ICategory } from 'src/app/Models/icategory';
 import { IProduct } from 'src/app/Models/iproduct';
 import { StaticProductsService } from '../../../Services/static-products.service';
 import { Router } from '@angular/router';
+import { ProductsService } from 'src/app/Services/products.service';
 
 @Component({
   selector: 'app-product-list',
@@ -26,7 +27,8 @@ export class ProductListComponent implements OnChanges, OnInit {
   productListCat: IProduct[] = [];
   orderTotalPrice: number = 0;
   constructor(
-    private staticProdService: StaticProductsService,
+    private productService: ProductsService,
+    // private staticProdService: StaticProductsService,
     private router: Router
   ) {
     this.totalPriceChanged = new EventEmitter();
@@ -90,13 +92,21 @@ export class ProductListComponent implements OnChanges, OnInit {
   }
   ngOnChanges() {
     // this.filterProdByCatID();
-    this.productListCat = this.staticProdService.getProductByCatID(
-      this.sentCatID
-    );
+    // this.productListCat = this.staticProdService.getProductByCatID(
+    //   this.sentCatID
+    // );
+    this.productService
+      .getProductsByCatID(this.sentCatID)
+      .subscribe((products) => {
+        this.productListCat = products;
+      });
   }
 
   ngOnInit(): void {
-    this.productListCat = this.staticProdService.getAllProducts();
+    // this.productListCat = this.staticProdService.getAllProducts();
+    this.productService.getAllProducts().subscribe((products) => {
+      this.productListCat = products;
+    });
   }
   buy(prodPrice: number, count: number) {
     this.orderTotalPrice += count * prodPrice;
