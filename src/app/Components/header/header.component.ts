@@ -1,10 +1,18 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { UserAuthService } from 'src/app/Services/user-auth.service';
 
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
-  styleUrls: ['./header.component.scss']
+  styleUrls: ['./header.component.scss'],
 })
-export class HeaderComponent {
-
+export class HeaderComponent implements OnInit {
+  isUserLogged: boolean = false;
+  constructor(private authService: UserAuthService) {}
+  ngOnInit(): void {
+    // this.isUserLogged = this.authService.userIsLogged;
+    this.authService.getLoggedStatus().subscribe((status) => {
+      this.isUserLogged = status;
+    });
+  }
 }

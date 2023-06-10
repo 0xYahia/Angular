@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { Subscription, filter, map } from 'rxjs';
+import { Subscription, catchError, filter, map, retry } from 'rxjs';
 import { PromotionAdsService } from 'src/app/Services/promotion-ads.service';
 import { StoreData } from 'src/app/ViewModels/store-data';
 
@@ -48,7 +48,9 @@ export class HomeComponent implements OnInit, OnDestroy {
 
     let filtersObservable = this.promoAds.getScheduledAds(2).pipe(
       filter((ad) => ad.includes('White Friday')),
-      map((ad) => 'Ad: ' + ad)
+      map((ad) => 'Ad: ' + ad),
+      retry(3)
+      // catchError() // Search
     );
     let adsSubscription = filtersObservable.subscribe(observer);
     this.subscriptions.push(adsSubscription);
