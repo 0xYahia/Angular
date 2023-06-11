@@ -7,6 +7,7 @@ import { Injectable } from '@angular/core';
 import { Observable, catchError, retry, throwError } from 'rxjs';
 import { IProduct } from '../Models/iproduct';
 import { environment } from '../../environments/environment';
+import { APIResponseVM } from '../ViewModels/apiresponse-vm';
 
 @Injectable({
   providedIn: 'root',
@@ -43,9 +44,15 @@ export class ProductsService {
   }
 
   getAllProducts(): Observable<IProduct[]> {
-    return this.httpClient
-      .get<IProduct[]>(`${environment.APIURL}/products`)
-      .pipe(retry(3), catchError(this.handleError));
+    // Repository Design pattern
+    // return this.genericAPIHandler.getAll('/products')
+    // .pip(
+    //   map((APIResponseVM: APIResponseVM) => {
+    //     return APIResponseVM.data
+    //   })
+    // )
+    return this.httpClient.get<IProduct[]>(`${environment.APIURL}/products`);
+    // .pipe(retry(3), catchError(this.handleError));
   }
 
   getProductsByCatID(catID: number): Observable<IProduct[]> {
