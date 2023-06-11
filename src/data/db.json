@@ -77,6 +77,14 @@
       "quantity": 500,
       "imgURL": "",
       "categoryID": 3
+    },
+    {
+      "name": "lapto",
+      "price": 500,
+      "quantity": 5,
+      "categoryID": "1",
+      "imgURL": "C:\\fakepath\\Screenshot from 2023-05-05 00-59-40.png",
+      "id": 101
     }
   ]
 }
