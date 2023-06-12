@@ -1,10 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import {
+  FormArray,
   FormBuilder,
   FormControl,
   FormGroup,
   Validators,
 } from '@angular/forms';
+import { IUser } from 'src/app/Models/iuser';
 
 @Component({
   selector: 'app-user-register',
@@ -33,7 +35,7 @@ export class UserRegisterComponent implements OnInit {
     this.userRegisterForm = fb.group({
       fullName: ['', [Validators.required, Validators.pattern('[A-Za-z]{3,}')]],
       email: ['', [Validators.required]],
-      phone: [''],
+      phoneNo: fb.array([this.fb.control('')]),
       address: fb.group({
         city: [''],
         postalCode: [''],
@@ -61,21 +63,34 @@ export class UserRegisterComponent implements OnInit {
     //     street: 'street 1',
     //   },
     // });
-
-    this.userRegisterForm.patchValue({
-      // Can provide some properties
-      fullName: 'ITI',
-      email: 'mohamed@gmail.com',
-      address: {
-        city: 'Mansoura',
-        postalCode: 555,
-        street: 'street 1',
-      },
-    });
+    //   this.userRegisterForm.patchValue({
+    //     // Can provide some properties
+    //     fullName: 'ITI',
+    //     email: 'mohamed@gmail.com',
+    //     address: {
+    //       city: 'Mansoura',
+    //       postalCode: 555,
+    //       street: 'street 1',
+    //     },
+    //   });
   }
   get fullName() {
     return this.userRegisterForm.get('fullName');
   }
 
+  get phoneNumbers() {
+    return this.userRegisterForm.get('phoneNo') as FormArray;
+  }
   // fillForm() {}
+
+  addPhoneNo(event: any) {
+    this.phoneNumbers.push(this.fb.control(''));
+    event.target?.classList.add('d-none');
+  }
+
+  submit() {
+    let userModel: IUser = (<IUser>this.userRegisterForm.value) as IUser;
+    // let userModel: IUser = this.userRegisterForm.value as IUser
+    console.log(userModel);
+  }
 }

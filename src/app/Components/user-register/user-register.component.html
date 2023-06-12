@@ -9,7 +9,7 @@
     </div>
   </div>
   <hr />
-  <form [formGroup]="userRegisterForm" class="m-3">
+  <form [formGroup]="userRegisterForm" class="m-3" (ngSubmit)="submit()">
     <div class="mb-3">
       <label for="fName" class="form-label">FullName</label>
       <input
@@ -17,8 +17,23 @@
         formControlName="fullName"
         class="form-control"
         id="fName"
-        name="fname"
+        name="userfullname"
+        [class.is-invalid]="fullName?.invalid"
+        [class.is-valid]="fullName?.valid"
       />
+      <div
+        class="alert alert-warning"
+        [hidden]="fullName?.valid || fullName?.untouched"
+      >
+        <small *ngIf="fullName?.errors?.['required']"
+          >FullNam is required</small
+        >
+        <small *ngIf="fullName?.errors?.['pattern']"
+          >Full name must be 3 characters at least
+          <strong>{{fullName?.errors?.['pattern'].actualValue}}</strong> doesn't
+          match</small
+        >
+      </div>
     </div>
 
     <div class="mb-3">
@@ -32,15 +47,25 @@
       />
     </div>
 
-    <div class="mb-3">
-      <label for="uPhone" class="form-label">Phone</label>
-      <input
-        type="text"
-        formControlName="phone"
-        class="form-control"
-        id="uPhone"
-        name="userphone"
-      />
+    <div formArrayName="phoneNo">
+      <div
+        class="mb-3"
+        *ngFor="let phoneNo of phoneNumbers.controls; let i = index"
+      >
+        <label for="{{ 'uPhone-' + i }}" class="form-label"
+          >Phone #{{ i + 1 }}</label
+        >
+        <input
+          type="text"
+          [formControlName]="i"
+          class="form-control"
+          id="{{ 'uPhone-' + i }}"
+          name="{{ 'userphone' + i }}"
+        />
+        <button class="btn btn-primary mt-2" (click)="addPhoneNo($event)">
+          +
+        </button>
+      </div>
     </div>
 
     <div formGroupName="address">
@@ -99,7 +124,13 @@
         name="userconfirmpassword"
       />
     </div>
-    <button type="submit" class="btn btn-primary">Submit</button>
+    <button
+      [disabled]="userRegisterForm.invalid"
+      type="submit"
+      class="btn btn-primary"
+    >
+      Submit
+    </button>
   </form>
   <div>
     <!-- <button class="btn btn-secondary" (click)="fillForm()">Fill Form</button> -->
