@@ -9,6 +9,7 @@ import { UserLoginComponent } from './Components/user-login/user-login.component
 import { ProductDetailsComponent } from './Components/Order/product-details/product-details.component';
 import { AuthGuard } from './Gaurds/auth.guard';
 import { AddProductComponent } from './Components/Order/add-product/add-product.component';
+import { UserRegisterComponent } from './Components/user-register/user-register.component';
 
 const routes: Routes = [
   // First-match wins strategy
@@ -29,6 +30,7 @@ const routes: Routes = [
     ],
   },
   { path: 'login', component: UserLoginComponent },
+  { path: 'register', component: UserRegisterComponent },
   { path: 'logout', component: UserLoginComponent },
   { path: '**', component: NotFoundComponent }, // Wild card path
 ];

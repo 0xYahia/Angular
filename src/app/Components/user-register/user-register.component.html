@@ -1,0 +1,107 @@
+<div class="container">
+  <div class="text-danger">
+    <h3>To be removed [For test]:</h3>
+    <div>
+      {{ userRegisterForm.value | json }}
+    </div>
+    <div>
+      {{ userRegisterForm.get("fullName")?.errors | json }}
+    </div>
+  </div>
+  <hr />
+  <form [formGroup]="userRegisterForm" class="m-3">
+    <div class="mb-3">
+      <label for="fName" class="form-label">FullName</label>
+      <input
+        type="text"
+        formControlName="fullName"
+        class="form-control"
+        id="fName"
+        name="fname"
+      />
+    </div>
+
+    <div class="mb-3">
+      <label for="uEmail" class="form-label">Email</label>
+      <input
+        type="text"
+        formControlName="email"
+        class="form-control"
+        id="uEmail"
+        name="email"
+      />
+    </div>
+
+    <div class="mb-3">
+      <label for="uPhone" class="form-label">Phone</label>
+      <input
+        type="text"
+        formControlName="phone"
+        class="form-control"
+        id="uPhone"
+        name="userphone"
+      />
+    </div>
+
+    <div formGroupName="address">
+      <div class="mb-3">
+        <label for="uCity" class="form-label">City</label>
+        <input
+          type="text"
+          formControlName="city"
+          class="form-control"
+          id="uCity"
+          name="usercity"
+        />
+      </div>
+
+      <div class="mb-3">
+        <label for="uPostalCode" class="form-label">Postal Code</label>
+        <input
+          type="number"
+          formControlName="postalCode"
+          class="form-control"
+          id="uPostalCode"
+          name="userpostalcode"
+        />
+      </div>
+
+      <div class="mb-3">
+        <label for="uStreet" class="form-label">Street</label>
+        <input
+          type="text"
+          formControlName="street"
+          class="form-control"
+          id="uStreet"
+          name="userstreet"
+        />
+      </div>
+    </div>
+
+    <div class="mb-3">
+      <label for="uPassword" class="form-label">Password</label>
+      <input
+        type="password"
+        formControlName="password"
+        class="form-control"
+        id="uPassword"
+        name="userpassword"
+      />
+    </div>
+
+    <div class="mb-3">
+      <label for="uConfirmPassword" class="form-label">Confirm Password</label>
+      <input
+        type="password"
+        formControlName="confirmPassword"
+        class="form-control"
+        id="uConfirmPassword"
+        name="userconfirmpassword"
+      />
+    </div>
+    <button type="submit" class="btn btn-primary">Submit</button>
+  </form>
+  <div>
+    <!-- <button class="btn btn-secondary" (click)="fillForm()">Fill Form</button> -->
+  </div>
+</div>
