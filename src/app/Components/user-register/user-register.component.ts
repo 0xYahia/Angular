@@ -43,6 +43,9 @@ export class UserRegisterComponent implements OnInit {
       }),
       password: [''],
       confirmPassword: [''],
+      referral: [''],
+      // referralOther: ['', [Validators.required]],
+      referralOther: [''],
     });
   }
 
@@ -81,11 +84,26 @@ export class UserRegisterComponent implements OnInit {
   get phoneNumbers() {
     return this.userRegisterForm.get('phoneNo') as FormArray;
   }
+
+  get referral() {
+    return this.userRegisterForm.get('referral');
+  }
   // fillForm() {}
 
   addPhoneNo(event: any) {
     this.phoneNumbers.push(this.fb.control(''));
     event.target?.classList.add('d-none');
+  }
+
+  updateReferralValidator() {
+    if (this.referral?.value === 'other') {
+      this.userRegisterForm
+        .get('referralOther')
+        ?.addValidators(Validators.required);
+    } else {
+      this.userRegisterForm.get('referralOther')?.clearValidators();
+    }
+    this.userRegisterForm.get('referralOther')?.updateValueAndValidity();
   }
 
   submit() {

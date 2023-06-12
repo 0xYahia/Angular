@@ -1,11 +1,13 @@
 <div class="container">
   <div class="text-danger">
     <h3>To be removed [For test]:</h3>
+    <div>Form Values: {{ userRegisterForm.value | json }}</div>
     <div>
-      {{ userRegisterForm.value | json }}
+      Full Name Errors: {{ userRegisterForm.get("fullName")?.errors | json }}
     </div>
     <div>
-      {{ userRegisterForm.get("fullName")?.errors | json }}
+      Referral Errors:
+      {{ userRegisterForm.get("referralOther")?.errors | json }}
     </div>
   </div>
   <hr />
@@ -47,7 +49,7 @@
       />
     </div>
 
-    <div formArrayName="phoneNo">
+    <ng-container formArrayName="phoneNo">
       <div
         class="mb-3"
         *ngFor="let phoneNo of phoneNumbers.controls; let i = index"
@@ -66,6 +68,59 @@
           +
         </button>
       </div>
+    </ng-container>
+
+    <div
+      class="btn-group"
+      role="group"
+      aria-label="Basic radio toggle button group"
+    >
+      <input
+        type="radio"
+        class="btn-check"
+        formControlName="referral"
+        name="referral"
+        id="btnradio1"
+        value="socialMedia"
+        checked
+        (change)="updateReferralValidator()"
+      />
+      <label class="btn btn-outline-primary" for="btnradio1"
+        >Social Media</label
+      >
+
+      <input
+        type="radio"
+        class="btn-check"
+        formControlName="referral"
+        name="referral"
+        id="btnradio2"
+        value="friend"
+        (change)="updateReferralValidator()"
+      />
+      <label class="btn btn-outline-primary" for="btnradio2">From Friend</label>
+
+      <input
+        type="radio"
+        class="btn-check"
+        formControlName="referral"
+        name="referral"
+        id="btnradio3"
+        value="other"
+        (change)="updateReferralValidator()"
+      />
+      <label class="btn btn-outline-primary" for="btnradio3">Other</label>
+    </div>
+
+    <div class="mb-3 ms-3" *ngIf="referral?.value == 'other'">
+      <label for="referralOther" class="form-label">Specify</label>
+      <input
+        type="text"
+        formControlName="referralOther"
+        class="form-control"
+        id="referralOther"
+        name="referralOther"
+      />
     </div>
 
     <div formGroupName="address">
@@ -124,6 +179,7 @@
         name="userconfirmpassword"
       />
     </div>
+
     <button
       [disabled]="userRegisterForm.invalid"
       type="submit"
