@@ -1,9 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import {
+  AbstractControl,
   FormArray,
   FormBuilder,
   FormControl,
   FormGroup,
+  ValidationErrors,
+  ValidatorFn,
   Validators,
 } from '@angular/forms';
 import { IUser } from 'src/app/Models/iuser';
@@ -15,7 +18,10 @@ import { IUser } from 'src/app/Models/iuser';
 })
 export class UserRegisterComponent implements OnInit {
   userRegisterForm: FormGroup;
+  existUserEmail: string[] = [];
   constructor(private fb: FormBuilder) {
+    this.existUserEmail = ['aa@aa.com', 'bb@bb.com', 'cc@cc.com'];
+
     // this.userRegisterForm = new FormGroup({
     //   fullName: new FormControl('', [
     //     Validators.required,
@@ -34,7 +40,10 @@ export class UserRegisterComponent implements OnInit {
 
     this.userRegisterForm = fb.group({
       fullName: ['', [Validators.required, Validators.pattern('[A-Za-z]{3,}')]],
-      email: ['', [Validators.required]],
+      email: [
+        '',
+        [Validators.required, this.existEmailValidator(this.existUserEmail)],
+      ],
       phoneNo: fb.array([this.fb.control('')]),
       address: fb.group({
         city: [''],
@@ -85,6 +94,10 @@ export class UserRegisterComponent implements OnInit {
     return this.userRegisterForm.get('phoneNo') as FormArray;
   }
 
+  get email() {
+    return this.userRegisterForm.get('email') as FormArray;
+  }
+
   get referral() {
     return this.userRegisterForm.get('referral');
   }
@@ -110,5 +123,17 @@ export class UserRegisterComponent implements OnInit {
     let userModel: IUser = (<IUser>this.userRegisterForm.value) as IUser;
     // let userModel: IUser = this.userRegisterForm.value as IUser
     console.log(userModel);
+  }
+
+  existEmailValidator(existEmails: string[]): ValidatorFn {
+    console.log(this.existUserEmail);
+    return (control: AbstractControl): ValidationErrors | null => {
+      let emailVal: string = control.value;
+      let validationError = { existEmail: { value: emailVal } };
+      if (emailVal.length == 0 && control.untouched) return null;
+      // return emailVal.includes('@') ? null : validationError;
+      let foundEmail = existEmails.includes(emailVal);
+      return foundEmail ? validationError : null;
+    };
   }
 }

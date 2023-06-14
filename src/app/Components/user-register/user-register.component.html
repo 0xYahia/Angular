@@ -47,6 +47,16 @@
         id="uEmail"
         name="email"
       />
+      <div
+        class="alert alert-warning"
+        [hidden]="email.valid || email.untouched"
+      >
+        <small *ngIf="email?.errors?.['required']">Email is required</small>
+        <small *ngIf="email?.errors?.['existEmail']"
+          >Email already used
+          <strong>{{email.errors?.['existEmail'].value}}</strong>
+        </small>
+      </div>
     </div>
 
     <ng-container formArrayName="phoneNo">
