@@ -177,6 +177,12 @@
         id="uPassword"
         name="userpassword"
       />
+      <div
+        class="alert alert-warning"
+        *ngIf="password?.errors?.['required'] && password?.touched"
+      >
+        password is required
+      </div>
     </div>
 
     <div class="mb-3">
@@ -188,7 +194,25 @@
         id="uConfirmPassword"
         name="userconfirmpassword"
       />
+      <!-- <div
+        class="alert alert-warning"
+        *ngIf="(confirmPassword?.touched && password?.touched) && (confirmPassword?.invalid || userRegisterForm.errors?.['UnmatchedPassword'])"
+      > -->
+      <div
+        class="alert alert-warning"
+        *ngIf="confirmPassword?.errors?.['required'] && confirmPassword?.touched"
+      >
+        Confirm password is required
+      </div>
+      <div
+        class="alert alert-warning"
+        *ngIf="userRegisterForm?.errors?.['UnmatchedPassword']"
+      >
+        Confirm password must match password
+        <strong>{{email.errors?.['UnmatchedPassword']}}</strong>
+      </div>
     </div>
+    <!-- </div> -->
 
     <button
       [disabled]="userRegisterForm.invalid"

@@ -9,6 +9,8 @@ import {
   ValidatorFn,
   Validators,
 } from '@angular/forms';
+import { existEmailValidator } from 'src/CustomValidator/ExistEmail.validation';
+import { passwordMatch } from 'src/CustomValidator/PasswordMatched.Validator';
 import { IUser } from 'src/app/Models/iuser';
 
 @Component({
@@ -38,24 +40,31 @@ export class UserRegisterComponent implements OnInit {
     //   confirmPassword: new FormControl(''),
     // });
 
-    this.userRegisterForm = fb.group({
-      fullName: ['', [Validators.required, Validators.pattern('[A-Za-z]{3,}')]],
-      email: [
-        '',
-        [Validators.required, this.existEmailValidator(this.existUserEmail)],
-      ],
-      phoneNo: fb.array([this.fb.control('')]),
-      address: fb.group({
-        city: [''],
-        postalCode: [''],
-        street: [''],
-      }),
-      password: [''],
-      confirmPassword: [''],
-      referral: [''],
-      // referralOther: ['', [Validators.required]],
-      referralOther: [''],
-    });
+    this.userRegisterForm = fb.group(
+      {
+        fullName: [
+          '',
+          [Validators.required, Validators.pattern('[A-Za-z]{3,}')],
+        ],
+        email: [
+          '',
+          [Validators.required, existEmailValidator(this.existUserEmail)],
+        ],
+        phoneNo: fb.array([this.fb.control('')]),
+        address: fb.group({
+          city: [''],
+          postalCode: [''],
+          street: [''],
+        }),
+        password: ['', [Validators.required]],
+        confirmPassword: ['', [Validators.required]],
+        referral: [''],
+        // referralOther: ['', [Validators.required]],
+        referralOther: [''],
+      },
+      // { validators: passwordMatch() }
+      { validators: passwordMatch }
+    );
   }
 
   ngOnInit(): void {
@@ -101,6 +110,14 @@ export class UserRegisterComponent implements OnInit {
   get referral() {
     return this.userRegisterForm.get('referral');
   }
+
+  get password() {
+    return this.userRegisterForm.get('password');
+  }
+
+  get confirmPassword() {
+    return this.userRegisterForm.get('confirmPassword');
+  }
   // fillForm() {}
 
   addPhoneNo(event: any) {
@@ -123,17 +140,5 @@ export class UserRegisterComponent implements OnInit {
     let userModel: IUser = (<IUser>this.userRegisterForm.value) as IUser;
     // let userModel: IUser = this.userRegisterForm.value as IUser
     console.log(userModel);
-  }
-
-  existEmailValidator(existEmails: string[]): ValidatorFn {
-    console.log(this.existUserEmail);
-    return (control: AbstractControl): ValidationErrors | null => {
-      let emailVal: string = control.value;
-      let validationError = { existEmail: { value: emailVal } };
-      if (emailVal.length == 0 && control.untouched) return null;
-      // return emailVal.includes('@') ? null : validationError;
-      let foundEmail = existEmails.includes(emailVal);
-      return foundEmail ? validationError : null;
-    };
   }
 }
