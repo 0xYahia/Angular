@@ -27,6 +27,13 @@ const routes: Routes = [
         component: OrderMasterComponent,
         canActivate: [AuthGuard],
       },
+      {
+        path: 'user',
+        loadChildren: () =>
+          import('src/app/Components/user-module/user.module').then(
+            (m) => m.UserModule
+          ),
+      },
     ],
   },
   { path: 'login', component: UserLoginComponent },

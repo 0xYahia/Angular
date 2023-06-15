@@ -62,6 +62,24 @@
             >Logout</a
           >
         </li>
+        <li class="nav-item">
+          <a
+            class="nav-link"
+            [hidden]="!isUserLogged"
+            routerLink="/user/userProfile"
+            routerLinkActive="active"
+            >Profile</a
+          >
+        </li>
+        <li class="nav-item">
+          <a
+            class="nav-link"
+            [hidden]="!isUserLogged"
+            routerLink="/user/editProfile"
+            routerLinkActive="active"
+            >Edit</a
+          >
+        </li>
       </ul>
     </div>
   </div>
